@@ -15,7 +15,7 @@ It allows users to make donations, track donation records, create dispatches, an
 
 - JavaBean (Model, Servlets, JSP)
 - Derby Database
-- HTML, CSS, JavaScript
+- CSS & JavaScript
 
 ## How to Run
 
