@@ -32,4 +32,4 @@ Amirul Irfan
 
 ---
 
-Feel free to explore and contribute!
+Feel free to explore !
