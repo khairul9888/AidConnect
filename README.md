@@ -26,8 +26,8 @@ It allows users to make donations, track donation records, create dispatches, an
 
 ## Author
 
-Muhammad Khairul Ikhwan
-Muhammad Afiq
+Muhammad Khairul Ikhwan/
+Muhammad Afiq/
 Amirul Irfan
 
 ---
