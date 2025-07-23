@@ -30,14 +30,14 @@ public class UpdateDonationServlet extends HttpServlet {
             boolean success = dao.updateDonation(donation);
 
             if (success) {
-                response.sendRedirect("viewdonationspage.jsp?update=success");
+                response.sendRedirect("ViewDonationsServlet?update=success");
             } else {
                 response.sendRedirect("viewdonationspage.jsp?update=fail");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("viewdonationspage.jsp?update=error");
+            response.sendRedirect("ViewDonationsServlet?update=error");
         }
     }
 }

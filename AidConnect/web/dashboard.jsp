@@ -155,7 +155,7 @@
       min-height: calc(100vh - 80px);
       display: flex;
       flex-direction: column;
-      align-items: center;  /* center horizontally */
+      align-items: center;
       justify-content: flex-start;
       width: 100%;
       max-width: 960px;
@@ -227,14 +227,30 @@
   <div class="layout">
 
     <!-- Sidebar -->
-    <div class="sidebar">
-      <h3>Our Menu</h3>
-      <a href="donation.jsp"><span>Make a Donation</span></a>
-      <a href="ViewDonationsServlet"><span>Donation Records</span></a>
-      <a href="dispatch.jsp"><span>Create Dispatch</span></a>
-      <a href="viewdispatchpage.jsp"><span>Dispatch Records</span></a>
-      <a href="feedback.jsp"><span>Feedback</span></a>
-    </div>
+    <%
+      if ("donor".equals(role)) {
+    %>
+      <div class="sidebar">
+        <h3>Our Menu</h3>
+        <a href="donation.jsp"><span>Make a Donation</span></a>
+        <a href="feedback.jsp"><span>Feedback</span></a>
+      </div>
+    <%
+      } else if ("administrator".equals(role)) {
+    %>
+      <div class="sidebar">
+        <h3>Our Menu</h3>
+        <a href="donation.jsp"><span>Make a Donation</span></a>
+        <a href="ViewDonationsServlet"><span>Donation Records</span></a>
+        <a href="dispatch.jsp"><span>Create Dispatch</span></a>
+        <a href="viewdispatchpage.jsp"><span>Dispatch Records</span></a>
+        <a href="feedback.jsp"><span>Feedback</span></a>
+        <a href="roles.jsp"><span>Roles and Permission</span></a>
+        <a href="ViewFeedbackServlet"><span>Feedback Records</span></a>
+      </div>
+    <%
+      }
+    %>
 
     <!-- Main Content -->
     <div class="main-content">

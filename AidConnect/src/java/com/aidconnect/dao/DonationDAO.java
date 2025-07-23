@@ -154,5 +154,17 @@ public List<Donation> getAllDonations() {
 
     return success;
 }
-
+   public boolean hasDispatches(int donationId) {
+        boolean has = false;
+        String sql = "SELECT 1 FROM Dispatch WHERE donation_id = ? FETCH FIRST ROW ONLY";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, donationId);
+            ResultSet rs = stmt.executeQuery();
+            has = rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return has;
+    }
 }

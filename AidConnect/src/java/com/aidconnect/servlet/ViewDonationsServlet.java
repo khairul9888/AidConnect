@@ -7,18 +7,25 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @WebServlet("/ViewDonationsServlet")
 public class ViewDonationsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Fix: Instantiate DonationDAO
         DonationDAO dao = new DonationDAO();
-        List<Donation> donations = dao.getAllDonations(); // call method on the object
+        List<Donation> donations = dao.getAllDonations();
+
+        Set<Integer> linkedDonationIds = new HashSet<>();
+        for (Donation d : donations) {
+            if (dao.hasDispatches(d.getDonationId())) {
+                linkedDonationIds.add(d.getDonationId());
+            }
+        }
 
         request.setAttribute("donationList", donations);
+        request.setAttribute("linkedDonationIds", linkedDonationIds);
         request.getRequestDispatcher("viewdonationspage.jsp").forward(request, response);
     }
 }

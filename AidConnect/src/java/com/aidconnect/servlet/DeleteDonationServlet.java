@@ -26,7 +26,7 @@ public class DeleteDonationServlet extends HttpServlet {
             stmt.executeUpdate();
             conn.close();
 
-            response.sendRedirect(request.getContextPath() + "/viewdonationspage.jsp");
+            response.sendRedirect(request.getContextPath() + "/ViewDonationsServlet");
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Delete error: " + e.getMessage());

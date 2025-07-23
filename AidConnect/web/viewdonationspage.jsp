@@ -1,4 +1,4 @@
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List, java.util.Set" %>
 <%@ page import="com.aidconnect.model.Donation" %>
 <%
     if (session == null || session.getAttribute("user_id") == null) {
@@ -7,6 +7,7 @@
     }
 
     List<Donation> donationList = (List<Donation>) request.getAttribute("donationList");
+    Set<Integer> linkedDonationIds = (Set<Integer>) request.getAttribute("linkedDonationIds");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,6 +55,19 @@
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
+    .back-btn {
+  display: inline-block;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.back-btn:hover {
+  background-color: #2980b9;
+}
     .btn {
       padding: 8px 14px;
       border: none;
@@ -77,20 +91,16 @@
     .btn-delete:hover {
       background-color: #c0392b;
     }
-
-    /* Unified Back button style */
-    .back-btn {
-      display: inline-block;
-      background-color: #3498db;
-      color: white;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 6px;
+    .linked-warning {
+      color: orange;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-left: 6px;
+      font-size: 1.2em;
+      cursor: help;
     }
-    .back-btn:hover {
-      background-color: #2980b9;
+    .btn-delete[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
   </style>
 </head>
@@ -98,6 +108,7 @@
   <div class="container">
     <h2>Donation Records</h2>
     <a href="dashboard.jsp" class="back-btn">Back to Dashboard</a>
+
     <div style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 6px; margin-bottom: 20px;">
       <strong>Note:</strong> Donations that are already linked to a dispatch <u>cannot be deleted</u>. Please delete the related dispatch record first if needed.
     </div>
@@ -106,7 +117,7 @@
       <thead>
         <tr>
           <th>Donation ID</th>
-          <th>Donor Name</th>
+          <th>Donor ID</th>
           <th>Item</th>
           <th>Quantity</th>
           <th>Date</th>
@@ -120,13 +131,18 @@
         %>
         <tr>
           <td><%= d.getDonationId() %></td>
-          <td><%= d.getFullName() %></td>
+          <td><%= d.getUserId() %></td>
           <td><%= d.getProductName() %></td>
           <td><%= d.getQuantity() %></td>
           <td><%= d.getDonationDate() %></td>
           <td>
-            <a href="editdonationpage.jsp?id=<%= d.getDonationId() %>" class="btn btn-edit">Edit</a>
-            <a href="DeleteDonationServlet?id=<%= d.getDonationId() %>" class="btn btn-delete" onclick="return confirm('Are you sure to delete this donation?');">Delete</a>
+            <a href="EditDonationServlet?id=<%= d.getDonationId() %>" class="btn btn-edit">Edit</a>
+            <% if (linkedDonationIds == null || !linkedDonationIds.contains(d.getDonationId())) { %>
+                <a href="DeleteDonationServlet?id=<%= d.getDonationId() %>" class="btn btn-delete" onclick="return confirm('Are you sure to delete this donation?');">Delete</a>
+            <% } else { %>
+                <button disabled title="Cannot delete linked donation" class="btn btn-delete">Delete</button>
+                <span class="linked-warning" title="Linked to Dispatch">&#9888;</span>
+            <% } %>
           </td>
         </tr>
         <%
